@@ -1,0 +1,175 @@
+import { IMG, pick } from "./images";
+
+/**
+ * Compact product definitions → expanded into full variants by seed.ts.
+ * price = base price of the smallest option; `step` adds per size step.
+ * `sale` = compare-at markup % (omitted = no sale). `soldOut` = variant keys with 0 stock.
+ */
+export type SeedProduct = {
+  name: string; category: string; price: number; step?: number; sale?: number;
+  colors?: string[]; sizes?: string[]; short: string; desc: string; specs: [string, string][]; tags: string[];
+  bestseller?: boolean; featured?: boolean; soldOut?: string[];
+};
+
+const BP_C = ["Black", "Tan", "Coffee", "Olive"], BP_S = ["15L", "20L", "25L"];
+const BELT_C = ["Black", "Brown", "Tan"], BELT_S = ["32", "34", "36", "38", "40", "42"];
+const CASE_C = ["Matte Black", "Brushed Steel", "Gold", "Leather Wrap"], CASE_S = ["10-stick", "20-stick"];
+const PERF_S = ["30ml", "50ml", "100ml"];
+const CL_C = ["Black", "Ivory", "Gold", "Maroon"];
+
+export const PRODUCTS: SeedProduct[] = [
+  // ── Backpacks (৳2,000–7,500) ──
+  { name: "Heritage Voyager Leather Backpack", category: "backpacks", price: 5200, step: 800, sale: 20, colors: BP_C, sizes: BP_S, bestseller: true, featured: true,
+    short: "Full-grain leather daypack with a padded laptop sleeve and solid brass hardware.", tags: ["leather", "laptop", "travel"],
+    desc: "Cut from full-grain buffalo leather that softens and deepens with every journey, the Voyager is built for the daily commute and the weekend escape alike.\n\nA padded sleeve protects your laptop, while hidden pockets keep your passport and phone close.",
+    specs: [["Material", "Full-grain buffalo leather"], ["Lining", "Cotton twill"], ["Hardware", "Solid brass"], ["Laptop", "Up to 15.6\""]], soldOut: ["Olive/25L", "Coffee/15L"] },
+  { name: "Metropolitan Slim Commuter", category: "backpacks", price: 3800, step: 600, colors: ["Black", "Coffee"], sizes: BP_S,
+    short: "A slim, structured profile for the office — sleek enough for a suit.", tags: ["office", "slim", "laptop"],
+    desc: "Minimal lines, magnetic closures and a water-resistant base make the Metropolitan the refined choice for Dhaka's daily commute.",
+    specs: [["Material", "Top-grain leather & nylon"], ["Closure", "Magnetic flap"], ["Water resistance", "Coated base"]] },
+  { name: "Olive Expedition Canvas Pack", category: "backpacks", price: 2600, step: 500, sale: 15, colors: ["Olive", "Tan", "Black"], sizes: BP_S,
+    short: "Waxed canvas with leather trims — rugged, weatherproof, timeless.", tags: ["canvas", "travel", "outdoor"],
+    desc: "Our waxed canvas repels monsoon showers while leather straps and brass buckles age beautifully over years of adventure.",
+    specs: [["Material", "Waxed cotton canvas"], ["Trim", "Genuine leather"], ["Weight", "1.1 kg (20L)"]] },
+  { name: "Noir Roll-Top Weekender", category: "backpacks", price: 4500, step: 700, colors: ["Black", "Coffee"], sizes: ["20L", "25L"], bestseller: true,
+    short: "An expandable roll-top that grows with your plans.", tags: ["weekend", "roll-top", "travel"],
+    desc: "Roll it tight for the office or expand for a two-night getaway. A separate shoe compartment keeps essentials clean.",
+    specs: [["Material", "Leather & ballistic nylon"], ["Expansion", "+5L roll-top"], ["Compartments", "Shoe pocket, laptop sleeve"]] },
+  { name: "Tan Artisan Rucksack", category: "backpacks", price: 6400, step: 550, colors: ["Tan", "Coffee"], sizes: BP_S, featured: true,
+    short: "Hand-stitched vegetable-tanned leather with a drawstring top.", tags: ["handmade", "vegetable-tanned"],
+    desc: "Each rucksack is hand-stitched by our artisans using saddle-stitch technique for strength that outlasts machine seams.",
+    specs: [["Material", "Vegetable-tanned leather"], ["Stitching", "Hand saddle-stitch"], ["Closure", "Drawstring + flap"]] },
+  { name: "Urban Minimal Daypack", category: "backpacks", price: 2000, step: 400, colors: BP_C, sizes: ["15L", "20L"],
+    short: "Lightweight everyday essentials pack with a clean silhouette.", tags: ["everyday", "lightweight"],
+    desc: "At under 700 grams, the Urban Minimal carries your day without weighing it down. Perfect for students and creatives.",
+    specs: [["Material", "PU-coated canvas"], ["Weight", "680 g"], ["Pockets", "4 internal, 2 external"]] },
+  { name: "Signature Monogram Backpack", category: "backpacks", price: 6800, step: 350, sale: 10, colors: ["Black", "Coffee"], sizes: ["20L", "25L"], bestseller: true,
+    short: "Embossed Zod's monogram leather — our flagship backpack.", tags: ["signature", "monogram", "gift"],
+    desc: "The flagship of our collection: embossed monogram leather, gold-tone hardware and a suede-lined interior.",
+    specs: [["Material", "Embossed calf leather"], ["Lining", "Micro-suede"], ["Hardware", "Gold-tone zinc alloy"]] },
+
+  // ── Belts (৳900–2,500) ──
+  { name: "Classic Dress Leather Belt", category: "belts", price: 1450, colors: BELT_C, sizes: BELT_S, bestseller: true, sale: 20,
+    short: "A 35mm full-grain dress belt with a polished steel buckle.", tags: ["formal", "dress", "leather"],
+    desc: "The essential dress belt. Edge-painted by hand and finished with a polished stainless-steel pin buckle.",
+    specs: [["Width", "35 mm"], ["Material", "Full-grain cowhide"], ["Buckle", "Stainless steel"]], soldOut: ["Tan/42", "Brown/32"] },
+  { name: "Reversible Executive Belt", category: "belts", price: 1850, colors: ["Black", "Brown"], sizes: BELT_S,
+    short: "Two belts in one — black on one side, brown on the other.", tags: ["reversible", "office"],
+    desc: "Twist the buckle to switch from black to brown. The one belt your office wardrobe needs.",
+    specs: [["Width", "35 mm"], ["Buckle", "Rotating gunmetal"], ["Sides", "Black / Brown"]] },
+  { name: "Brass Buckle Casual Belt", category: "belts", price: 1200, colors: BELT_C, sizes: BELT_S,
+    short: "A 40mm casual belt with an antique brass roller buckle.", tags: ["casual", "denim", "brass"],
+    desc: "Built for denim and chinos, with a thick 4mm strap that develops a rich patina.",
+    specs: [["Width", "40 mm"], ["Thickness", "4 mm"], ["Buckle", "Solid brass roller"]] },
+  { name: "Woven Braided Leather Belt", category: "belts", price: 1650, colors: ["Brown", "Tan"], sizes: BELT_S, sale: 15,
+    short: "Hand-braided leather strips — fits any hole, any day.", tags: ["braided", "summer", "casual"],
+    desc: "Hand-braided with no holes needed; the prong fits anywhere along the weave for a perfect fit.",
+    specs: [["Width", "32 mm"], ["Construction", "Hand-braided"], ["Buckle", "Brushed nickel"]] },
+  { name: "Minimalist Automatic Belt", category: "belts", price: 2200, colors: ["Black", "Brown"], sizes: BELT_S, featured: true,
+    short: "Ratchet track for a micro-adjustable, holeless fit.", tags: ["automatic", "ratchet", "modern"],
+    desc: "An invisible ratchet track lets you adjust in 5mm increments. Click to fasten, lever to release.",
+    specs: [["Width", "35 mm"], ["Mechanism", "Ratchet track"], ["Buckle", "Zinc alloy, matte"]] },
+  { name: "Suede Weekend Belt", category: "belts", price: 900, colors: ["Brown", "Tan"], sizes: BELT_S,
+    short: "Soft Italian-style suede for relaxed weekend dressing.", tags: ["suede", "weekend"],
+    desc: "Velvety suede with a leather backing and a slim matte-black buckle.",
+    specs: [["Width", "30 mm"], ["Material", "Suede, leather backed"]] },
+  { name: "Heritage Crocodile Embossed Belt", category: "belts", price: 2500, colors: ["Black", "Brown"], sizes: BELT_S, bestseller: true,
+    short: "Crocodile-embossed calf leather for special occasions.", tags: ["embossed", "luxury", "gift"],
+    desc: "Our most luxurious belt — deep-embossed calf with a gold-tone plaque buckle. Presented in a gift box.",
+    specs: [["Width", "35 mm"], ["Material", "Croc-embossed calf"], ["Packaging", "Gift box"]] },
+
+  // ── Cigarette Cases (৳700–3,000) ──
+  { name: "Sovereign Brushed Steel Case", category: "cigarette-cases", price: 1200, step: 300, colors: CASE_C, sizes: CASE_S, bestseller: true,
+    short: "A slim spring-hinged case in aircraft-grade steel.", tags: ["steel", "slim", "gift"],
+    desc: "Precision-machined with a silent spring hinge and elastic retainers that hold every stick perfectly.",
+    specs: [["Material", "304 stainless steel"], ["Hinge", "Spring-loaded"], ["Fits", "King size"]], soldOut: ["Gold/20-stick"] },
+  { name: "Aurum Gold-Plated Case", category: "cigarette-cases", price: 2400, step: 600, colors: ["Gold"], sizes: CASE_S, sale: 20, featured: true,
+    short: "18k gold-plated with a hand-engraved guilloché pattern.", tags: ["gold", "engraved", "luxury"],
+    desc: "A true heirloom: 18k gold plating over brass with a hand-engraved guilloché face.",
+    specs: [["Finish", "18k gold plated"], ["Engraving", "Guilloché"], ["Gift box", "Included"]] },
+  { name: "Noir Matte Pocket Case", category: "cigarette-cases", price: 700, step: 200, colors: ["Matte Black"], sizes: CASE_S,
+    short: "Soft-touch matte black aluminium, featherlight.", tags: ["matte", "lightweight"],
+    desc: "Anodised aluminium with a soft-touch coating — weighs just 45 grams.",
+    specs: [["Material", "Anodised aluminium"], ["Weight", "45 g"]] },
+  { name: "Gentleman's Leather Wrap Case", category: "cigarette-cases", price: 1500, step: 400, colors: ["Leather Wrap", "Matte Black"], sizes: CASE_S, bestseller: true,
+    short: "Steel core wrapped in hand-stitched Italian leather.", tags: ["leather", "classic"],
+    desc: "A rigid steel core protects, while hand-stitched leather gives a warm, tactile finish.",
+    specs: [["Core", "Stainless steel"], ["Wrap", "Vegetable-tanned leather"]] },
+  { name: "Imperial Dual-Tone Case", category: "cigarette-cases", price: 1900, step: 500, colors: ["Brushed Steel", "Gold"], sizes: CASE_S,
+    short: "Brushed steel with a polished gold band.", tags: ["dual-tone", "statement"],
+    desc: "A striking pairing of brushed steel and polished gold for those who appreciate contrast.",
+    specs: [["Material", "Steel & gold-plated brass"], ["Closure", "Push-button"]] },
+  { name: "Monarch Engraved Case with Lighter", category: "cigarette-cases", price: 2600, step: 400, colors: ["Matte Black", "Gold"], sizes: CASE_S, sale: 15,
+    short: "Integrated USB-C rechargeable windproof lighter.", tags: ["lighter", "usb-c", "tech"],
+    desc: "Case and flameless lighter in one. Charges via USB-C and lasts up to 150 lights per charge.",
+    specs: [["Lighter", "Flameless coil, USB-C"], ["Battery", "220 mAh"], ["Material", "Zinc alloy"]] },
+  { name: "Slimline Brushed Steel Case", category: "cigarette-cases", price: 950, colors: ["Brushed Steel"], sizes: ["10-stick"],
+    short: "Our thinnest case — slips into any jacket pocket.", tags: ["slim", "steel"],
+    desc: "At only 11mm thick, the Slimline disappears into a breast pocket.",
+    specs: [["Thickness", "11 mm"], ["Material", "Brushed stainless steel"]] },
+
+  // ── Perfumes (৳1,200–6,500) ──
+  { name: "Oud Royale Eau de Parfum", category: "perfumes", price: 2800, step: 1600, sizes: PERF_S, bestseller: true, featured: true, sale: 15,
+    short: "Smoky agarwood, saffron and rose — an Eastern masterpiece.", tags: ["oud", "oriental", "long-lasting"],
+    desc: "Top: saffron, bergamot. Heart: Bulgarian rose, agarwood. Base: amber, leather, musk.\n\nLasts 10–12 hours on skin.",
+    specs: [["Concentration", "Eau de Parfum (20%)"], ["Longevity", "10–12 hours"], ["Family", "Woody Oriental"]] },
+  { name: "Midnight Amber Intense", category: "perfumes", price: 2400, step: 1400, sizes: PERF_S,
+    short: "Warm amber, vanilla and tonka for evenings.", tags: ["amber", "evening", "warm"],
+    desc: "Top: pink pepper. Heart: amber, labdanum. Base: vanilla, tonka bean, sandalwood.",
+    specs: [["Concentration", "EDP Intense"], ["Longevity", "8–10 hours"]], soldOut: ["/100ml"] },
+  { name: "Bengal Vetiver Homme", category: "perfumes", price: 1800, step: 1000, sizes: PERF_S, bestseller: true,
+    short: "Fresh vetiver and green tea — crisp for Dhaka's heat.", tags: ["fresh", "summer", "vetiver"],
+    desc: "Top: grapefruit, green tea. Heart: vetiver, cardamom. Base: cedar, white musk.",
+    specs: [["Concentration", "Eau de Parfum"], ["Longevity", "6–8 hours"], ["Family", "Fresh Woody"]] },
+  { name: "Rose de Dhaka Femme", category: "perfumes", price: 2200, step: 1200, sizes: PERF_S, sale: 20,
+    short: "Damask rose, lychee and white musk.", tags: ["floral", "rose", "women"],
+    desc: "Top: lychee, pear. Heart: damask rose, peony. Base: white musk, cashmere wood.",
+    specs: [["Concentration", "Eau de Parfum"], ["Family", "Floral Fruity"]] },
+  { name: "Leather & Tobacco Noir", category: "perfumes", price: 3200, step: 1650, sizes: PERF_S, featured: true,
+    short: "Rich tobacco leaf, suede and honey.", tags: ["tobacco", "leather", "winter"],
+    desc: "Top: cinnamon, clary sage. Heart: tobacco leaf, honey. Base: suede, benzoin, oakmoss.",
+    specs: [["Concentration", "Extrait (25%)"], ["Longevity", "12+ hours"]] },
+  { name: "Citrus Sandalwood Cologne", category: "perfumes", price: 1200, step: 700, sizes: PERF_S,
+    short: "A clean, energising everyday cologne.", tags: ["citrus", "everyday", "unisex"],
+    desc: "Top: lemon, neroli. Heart: lavender. Base: sandalwood, ambrette.",
+    specs: [["Concentration", "Eau de Cologne"], ["Longevity", "4–6 hours"]] },
+  { name: "White Musk Attar Blend", category: "perfumes", price: 1600, step: 900, sizes: PERF_S,
+    short: "Alcohol-free attar-inspired white musk.", tags: ["attar", "musk", "alcohol-free"],
+    desc: "A soft, skin-close musk in a precious oil base — alcohol-free and gentle for all-day wear.",
+    specs: [["Base", "Oil (alcohol-free)"], ["Longevity", "8 hours"]] },
+
+  // ── Clutch Bags (৳1,500–5,000) ──
+  { name: "Maharani Embellished Clutch", category: "clutch-bags", price: 4200, colors: CL_C, bestseller: true, featured: true, sale: 15,
+    short: "Hand-beaded clutch for weddings and celebrations.", tags: ["wedding", "beaded", "evening"],
+    desc: "Over 2,000 hand-sewn beads on silk. Detachable gold chain turns it into a shoulder bag.",
+    specs: [["Material", "Silk, glass beads"], ["Strap", "Detachable 110cm chain"], ["Closure", "Magnetic clasp"]], soldOut: ["Ivory/"] },
+  { name: "Minimalist Envelope Clutch", category: "clutch-bags", price: 1500, colors: CL_C,
+    short: "Clean-lined saffiano leather envelope.", tags: ["minimal", "office", "saffiano"],
+    desc: "Scratch-resistant saffiano leather with a card slot and zip pocket inside.",
+    specs: [["Material", "Saffiano leather"], ["Size", "28 × 18 cm"]] },
+  { name: "Golden Hour Box Clutch", category: "clutch-bags", price: 3600, colors: ["Gold", "Black"], sale: 20,
+    short: "Hard-shell metallic box clutch — a statement for the evening.", tags: ["metallic", "box", "party"],
+    desc: "A sculptural hard-shell clutch with a push-lock and satin lining.",
+    specs: [["Material", "Metal frame, PU metallic"], ["Lining", "Satin"]] },
+  { name: "Velvet Nightfall Clutch", category: "clutch-bags", price: 2400, colors: ["Black", "Maroon"],
+    short: "Plush velvet with a gold kiss-lock frame.", tags: ["velvet", "vintage"],
+    desc: "Rich velvet meets a vintage-style kiss-lock frame in polished gold.",
+    specs: [["Material", "Cotton velvet"], ["Frame", "Gold-tone kiss-lock"]] },
+  { name: "Pearl Handle Evening Bag", category: "clutch-bags", price: 2900, colors: ["Ivory", "Black"],
+    short: "Faux-pearl top handle with satin body.", tags: ["pearl", "bridal"],
+    desc: "A graceful satin bag with a faux-pearl handle — beloved by brides and bridesmaids.",
+    specs: [["Handle", "Faux pearl"], ["Material", "Duchess satin"]] },
+  { name: "Quilted Chain Clutch", category: "clutch-bags", price: 5000, colors: CL_C, bestseller: true,
+    short: "Quilted lambskin-feel leather with chain strap.", tags: ["quilted", "chain", "signature"],
+    desc: "Diamond-quilted leather, gold-tone hardware and a chain strap you can tuck inside.",
+    specs: [["Material", "Soft nappa leather"], ["Strap", "Chain, tuck-in"], ["Hardware", "Gold-tone"]] },
+  { name: "Woven Jute Heritage Clutch", category: "clutch-bags", price: 1800, colors: ["Ivory", "Maroon"],
+    short: "Bangladeshi golden fibre, reimagined in luxury.", tags: ["jute", "heritage", "sustainable"],
+    desc: "Hand-woven jute — Bangladesh's golden fibre — trimmed in leather. Sustainable luxury.",
+    specs: [["Material", "Hand-woven jute, leather trim"], ["Origin", "Made in Bangladesh"]] },
+];
+
+export const POOL: Record<string, string[]> = {
+  backpacks: IMG.backpacks, belts: IMG.belts, "cigarette-cases": IMG.cases, perfumes: IMG.perfumes, "clutch-bags": IMG.clutches,
+};
+export { pick };

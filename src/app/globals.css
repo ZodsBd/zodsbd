@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { -webkit-tap-highlight-color: transparent; }
+  body { @apply bg-white font-sans text-obsidian antialiased; }
+  ::selection { @apply bg-gold/30; }
+  :focus-visible { outline: 2px solid #C9A227; outline-offset: 2px; }
+}
+
+@layer components {
+  .hairline { @apply border-t border-gold/40; }
+  .eyebrow { @apply text-[11px] font-medium uppercase tracking-luxe text-gold-dark; }
+  .prose-luxe { @apply text-[15px] leading-8 text-[#3a3631]; }
+  .prose-luxe h2 { @apply mt-10 mb-4 font-serif text-3xl text-obsidian; }
+  .prose-luxe h3 { @apply mt-8 mb-3 font-serif text-2xl text-obsidian; }
+  .prose-luxe p { @apply mb-5; }
+  .prose-luxe ul { @apply mb-5 list-disc pl-6; }
+  .prose-luxe ol { @apply mb-5 list-decimal pl-6; }
+  .prose-luxe a { @apply text-gold-dark underline underline-offset-4; }
+  .prose-luxe blockquote { @apply my-8 border-l-2 border-gold pl-6 font-serif text-2xl italic text-obsidian; }
+  .prose-luxe hr { @apply my-10 border-gold/40; }
+  .no-scrollbar { scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+}
+
+/* ---------- Print (A4 invoice / packing slip) ---------- */
+@page { size: A4; margin: 14mm; }
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff !important; }
+  .print-sheet { box-shadow: none !important; margin: 0 !important; padding: 0 !important; max-width: none !important; }
+  a { text-decoration: none; color: inherit; }
+}

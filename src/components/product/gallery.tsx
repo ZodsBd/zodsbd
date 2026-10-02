@@ -14,7 +14,7 @@ export function Gallery({ images, name, activeUrl }: { images: { url: string; al
   const current = images[idx] ?? images[0];
   if (!current) return <div className="aspect-[4/5] bg-ivory" />;
   return (
-    <div className="flex flex-col-reverse gap-3 md:flex-row">
+    <div className="relative z-0 flex w-full flex-col-reverse gap-3 md:flex-row">
       {images.length > 1 && (
         <ul className="no-scrollbar flex gap-3 overflow-x-auto md:max-h-[520px] md:flex-col md:overflow-y-auto" aria-label="Product images">
           {images.map((im, i) => (
@@ -28,7 +28,7 @@ export function Gallery({ images, name, activeUrl }: { images: { url: string; al
         </ul>
       )}
       <div
-        className="relative aspect-[4/3] min-w-0 flex-1 cursor-zoom-in overflow-hidden bg-ivory"
+        className="relative aspect-[4/5] w-full min-w-0 cursor-zoom-in overflow-hidden bg-ivory md:flex-1 md:self-start md:aspect-[4/5]"
         onMouseMove={(e) => {
           const r = e.currentTarget.getBoundingClientRect();
           setZoom({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 });

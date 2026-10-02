@@ -74,6 +74,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <p className="eyebrow">{p.category.name}</p>
               <h1 className="mt-3 font-serif text-4xl leading-tight md:text-5xl">{p.name}</h1>
               {p.ratingCount > 0 && <a href="#reviews" className="mt-3 inline-block"><Stars value={p.ratingAvg} count={p.ratingCount} /></a>}
+              <a href="#reviews" className="mt-2 block text-xs uppercase tracking-[0.16em] text-gold-dark underline underline-offset-4">{p.ratingCount > 0 ? "Write a review" : "Be the first to write a review"}</a>
               {p.shortDescription && <p className="mt-4 leading-relaxed text-warm-dark">{p.shortDescription}</p>}
             </div>
           }

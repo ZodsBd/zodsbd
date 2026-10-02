@@ -32,7 +32,7 @@ export function Reviews({ productId, reviews, avg, count }: { productId: string;
     reset(); setOpen(false);
   };
   return (
-    <section id="reviews" aria-labelledby="reviews-title" className="border-t border-border py-16">
+    <section id="reviews" aria-labelledby="reviews-title" className="relative z-10 clear-both scroll-mt-28 border-t border-border bg-white py-16">
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="eyebrow">Reviews</p>

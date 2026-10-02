@@ -17,8 +17,8 @@ export function ProductView({ product, images, variants, header, details }: Prop
   const all = [...images];
   variants.forEach((v) => { if (v.imageUrl && !all.some((i) => i.url === v.imageUrl)) all.push({ url: v.imageUrl, alt: `${product.name} — ${v.color ?? ""}` }); });
   return (
-    <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
-      <Gallery images={all} name={product.name} activeUrl={activeImg} />
+    <div className="grid items-start gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+      <div className="min-w-0"><Gallery images={all} name={product.name} activeUrl={activeImg} /></div>
       <div className="lg:sticky lg:top-28 lg:self-start">
         {header}
         <div className="mt-8"><PurchasePanel product={{ ...product, image: images[0]?.url ?? null }} variants={variants} onVariantImage={setActiveImg} /></div>
